@@ -1,0 +1,39 @@
+#!/bin/env bash
+
+set -e
+echo "logbuster collect $1 $LB_RUNDATE"
+
+(   set -e; set -a
+    source $LB_MACHINESDIR/$1 || true
+
+    [ $LB_TESTING ] || rm -rf $LB_SSHSCRIPTSDIR/$1-*
+    LB_SSH_SCRIPT="$LB_SSHSCRIPTSDIR/$1-$LB_RUNDATE.sh"
+
+# build ssh command
+    [ -z "$LB_SSH_COMMAND" ] && {
+        LB_SSH_COMMAND=$(lb_ssh_command) || LB_SSH_COMMAND=; }
+
+    echo "logbuster ssh_command $LB_SSH_COMMAND"
+
+    [ -z "$LB_SSH_COMMAND" ] || {
+        LB_SSH_COMMAND="$LB_SSH_COMMAND < $LB_SSH_SCRIPT"
+    }
+
+# build ssh script
+    [ -z "$LB_SSH_COMMAND" ] || {
+        echo "echo -n 'logbuster ssh_user '"
+        echo whoami
+        [ -z "$LB_GETLOGS" ] || lb_getlogs
+    } >> $LB_SSH_SCRIPT
+
+# run ssh script
+    [ -z "$LB_SSH_COMMAND" ] || {
+        mkdir -p $LB_DATADIR/$1/ssh
+        (   set +e
+            $LB_SSH_COMMAND
+        ) > $LB_DATADIR/$1/ssh/$LB_RUNDATE.log || true; }
+
+# build wget links
+# run wget
+
+    set +a )

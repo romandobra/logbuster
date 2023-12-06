@@ -1,0 +1,28 @@
+#!/bin/env bash
+
+set -e
+source helpers/array_logs
+
+echo "$LB_GETLOGS" | while read _LOG; do
+    [ -z $_LOG ] && continue
+
+    case $_LOG in
+
+# full logfile path provided
+    /*)
+        echo "echo \"logbuster getlogs $_LOG\""
+        echo "cat $_LOG"
+        ;;
+
+# looking for a log in helper array
+    *)
+        [ -v "lb_logs[$_LOG]" ] && {
+            echo "echo \"logbuster getlogs $_LOG\""
+            echo "cat ${lb_logs[$_LOG]}"
+        } || {
+            echo "logbuster unknown_log $_LOG" >&2
+        }
+        ;;
+    esac
+
+done

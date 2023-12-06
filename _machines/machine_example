@@ -1,0 +1,23 @@
+#!/bin/env bash
+
+# use these lines to build an ssh command automatically
+LB_SSH_USERHOST="user@localhost"
+LB_SSH_PORT="22"
+# cant use ssh password at the moment
+LB_SSH_KEY="/path/to/id_rsa"
+
+# uncomment if you need to use sudo
+#LB_SSH_SUDO=true
+#LB_SSH_SUDO_PASS=
+
+# these args will be available to the ssh shell
+#LB_SSH_ARGS=
+
+# uncomment the next line if you want to setup your ssh command manually
+# leave true to check generated ssh script instead of running it
+#LB_SSH_COMMAND="true"
+
+# set logs you want to get (read helpers/array_logs)
+LB_GETLOGS="auth
+alternatives
+/var/log/wrong.log"

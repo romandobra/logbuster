@@ -1,0 +1,8 @@
+#
+
+declare -A lb_logs=(
+    [alternatives]='/var/log/alternatives.log'
+    [auth]='/var/log/auth.log'
+    [apt]='/var/log/apt/history.log'
+    [wrong_log]='/var/log/apt/wrong.log'
+)
