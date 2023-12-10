@@ -12,6 +12,7 @@ echo "$LB_GET_LOGS" | while read _LOG; do
     /*)
         echo "echo \"logbuster getlogs $_LOG\""
         echo "cat $_LOG"
+        echo "echo"
         ;;
 
 # looking for a log in helper array
@@ -19,6 +20,7 @@ echo "$LB_GET_LOGS" | while read _LOG; do
         [ -v "lb_logs[$_LOG]" ] && {
             echo "echo \"logbuster getlogs $_LOG\""
             echo "cat ${lb_logs[$_LOG]}"
+            echo "echo"
         } || {
             echo "logbuster unknown_log $_LOG" >&2
         }
