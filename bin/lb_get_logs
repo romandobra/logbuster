@@ -3,7 +3,7 @@
 set -e
 source helpers/array_logs
 
-echo "$LB_GETLOGS" | while read _LOG; do
+echo "$LB_GET_LOGS" | while read _LOG; do
     [ -z $_LOG ] && continue
 
     case $_LOG in

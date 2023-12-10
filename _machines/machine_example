@@ -18,6 +18,6 @@ LB_SSH_KEY="/path/to/id_rsa"
 #LB_SSH_COMMAND="true"
 
 # set logs you want to get (read helpers/array_logs)
-LB_GETLOGS="auth
+LB_GET_LOGS="auth
 alternatives
 /var/log/wrong.log"
