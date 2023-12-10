@@ -23,7 +23,9 @@ echo "logbuster collect $1 $LB_RUNDATE"
     [ -z "$LB_SSH_COMMAND" ] || {
         echo "echo -n 'logbuster ssh_user '"
         echo whoami
+
         [ -z "$LB_GETLOGS" ] || lb_getlogs
+
     } >> $LB_SSH_SCRIPT
 
 # run ssh script
