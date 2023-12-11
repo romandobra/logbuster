@@ -1,4 +1,4 @@
 #!/bin/env bash
 
 set -e
-echo "stat --printf=\"%s\" '$1'; echo"
+echo "[ -d '$1' ] && { du -sb '$1' | cut -f1; } || { stat --printf=\"%s\" '$1'; echo; }"
