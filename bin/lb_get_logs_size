@@ -1,0 +1,4 @@
+#!/bin/env bash
+
+set -e
+echo "stat --printf=\"%s\" '$1'"
