@@ -1,0 +1,4 @@
+#!/bin/env bash
+
+set -e
+echo "flock -w $LB_SSH_FLOCK_WAIT '$1' -c 'cat $1'"

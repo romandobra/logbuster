@@ -21,6 +21,7 @@ echo "logbuster collect $1 $LB_RUNDATE"
 
 # build ssh script
     [ -z "$LB_SSH_COMMAND" ] || {
+        echo 'set -e; exec 2>&1'
         echo "echo -n 'logbuster ssh_user '"
         echo whoami
 

@@ -2,6 +2,8 @@
 
 set -e
 
+export LB_SSH_FLOCK_WAIT=5
+
 source .settings 2>/dev/null || true
 
 [ -z $LB_MACHINESDIR ] && { export LB_MACHINESDIR=$PWD/_machines; }

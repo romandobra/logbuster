@@ -4,25 +4,21 @@ set -e
 source helpers/array_logs
 
 echo "$LB_GET_LOGS" | while read _LOG; do
-    [ -z $_LOG ] && continue
+    [ -z "$_LOG" ] && continue
 
-    case $_LOG in
+    echo ${_LOG} | {
+        read _LOG_ACTION _LOG_PATH _LOG_PARAM
 
-# full logfile path provided
-    /*)
-        echo "echo \"logbuster getlogs $_LOG\""
-        echo "cat $_LOG"
-        ;;
+        _LOG_PATH=$(
+            [ -v "lb_logs[$_LOG_PATH]" ] && {
+                echo "${lb_logs[$_LOG_PATH]}"
+            } || echo "$_LOG_PATH" )
 
-# looking for a log in helper array
-    *)
-        [ -v "lb_logs[$_LOG]" ] && {
-            echo "echo \"logbuster getlogs $_LOG\""
-            echo "cat ${lb_logs[$_LOG]}"
+        command -v lb_get_logs_$_LOG_ACTION >/dev/null 2>&1 && {
+            echo "echo 'logbuster $_LOG_ACTION $_LOG_PATH $_LOG_PARAM'"
+            lb_get_logs_$_LOG_ACTION "$_LOG_PATH" "$_LOG_PARAM" || true
         } || {
-            echo "logbuster unknown_log $_LOG" >&2
+            echo "logbuster wrong_action '$_LOG_ACTION'" >&2
         }
-        ;;
-    esac
-
+    }
 done
