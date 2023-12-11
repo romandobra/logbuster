@@ -3,7 +3,9 @@
 lb_path_size(){
     [ -d "$1" ] && {
         du -sb "$1" | cut -f1
-    } || {
+    } || [ -e "$1" ] && {
         stat --printf="%s\n" "$1"
+    } || {
+        echo
     }
 }
