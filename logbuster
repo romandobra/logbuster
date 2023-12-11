@@ -2,7 +2,7 @@
 
 set -e
 
-export LB_SSH_FLOCK_WAIT=5
+export LB_FLOCK_WAIT=5
 
 source .settings 2>/dev/null || true
 
