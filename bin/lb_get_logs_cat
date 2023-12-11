@@ -1,4 +1,4 @@
 #!/bin/env bash
 
 set -e
-echo "cat $1"
+echo "cat '$1'"
