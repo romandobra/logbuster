@@ -9,14 +9,14 @@ echo "$LB_GET_LOGS" | while read _LOG; do
     echo ${_LOG} | {
         read _LOG_ACTION _LOG_PATH _LOG_PARAM
 
-        _LOG_PATH=$(
+        _LOG_PATH_ACTUAL=$(
             [ -v "lb_logs[$_LOG_PATH]" ] && {
                 echo "${lb_logs[$_LOG_PATH]}"
             } || echo "$_LOG_PATH" )
 
         command -v lb_get_logs_$_LOG_ACTION >/dev/null 2>&1 && {
             echo "echo 'logbuster $_LOG_ACTION $_LOG_PATH $_LOG_PARAM'"
-            lb_get_logs_$_LOG_ACTION "$_LOG_PATH" "$_LOG_PARAM" || true
+            lb_get_logs_$_LOG_ACTION "$_LOG_PATH_ACTUAL" "$_LOG_PARAM" || true
         } || {
             echo "logbuster wrong_action '$_LOG_ACTION'" >&2
         }
