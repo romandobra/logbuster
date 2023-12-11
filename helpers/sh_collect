@@ -1,0 +1,9 @@
+#
+
+lb_path_size(){
+    [ -d "$1" ] && {
+        du -sb "$1" | cut -f1
+    } || {
+        stat --printf="%s\n" "$1"
+    }
+}
