@@ -3,41 +3,41 @@
 set -e
 
 export LB_MACHINESDIR=$PWD/_machines
-[ -d $LB_MACHINESDIR ] || { echo "Directory $LB_MACHINESDIR doesnt exist"; exit 1; }
-[ -z "$(ls -A $LB_MACHINESDIR)" ] && { echo "Directory $LB_MACHINESDIR is empty"; exit 1; }
+export LB_DATADIR=$PWD/_data
 
 export LB_FLOCK_WAIT=5
 export LB_LOGS_MAX=100000
-export LB_USE_SERVER=true
+
+export LB_USE_SERVER=true # pkill parser3
 export LB_SERVER_PORT=4500
-
-source .settings 2>/dev/null || true
-
-export LB_DATADIR=$PWD/_data
-mkdir -p $LB_DATADIR
-
-[ $LB_USE_SERVER ] && \
-    [ ! $( lsof -Pi :$LB_SERVER_PORT -sTCP:LISTEN ) ] && \
-    ( 
-        cd server
-        ./parser3/parser3.cgi -p $LB_SERVER_PORT &
-    )
-
-[ -z $LB_SSHSCRIPTSDIR ] && export LB_SSHSCRIPTSDIR=$LB_DATADIR/_ssh_scripts
-mkdir -p "$LB_SSHSCRIPTSDIR"
-
-export LB_RUNDATE=$(date +%s)
-export LB_LOG=$LB_DATADIR/_meta/$LB_RUNDATE.log
-
-[ -f $LB_LOG ] && {
-    echo "Cant run logbuster more often than once in a second"
-    exit 1; }
-
-[ $LB_TESTING ] && { export LB_LOG=_testing.log; }
+export LB_SERVER_SHOW_ERRORS=0
 
 export PATH=$PATH:$PWD/bin
 
+export LB_RUNDATE=$(date +%s)
+export LB_LOG=$LB_DATADIR/_meta/$LB_RUNDATE.log
+[ $LB_TESTING ] && { export LB_LOG=_testing.log; }
+
+source .settings 2>/dev/null || true
+
+[ -f $LB_LOG ] && { echo "Cant run logbuster more often than once in a second"; exit 1; }
+[ -d $LB_MACHINESDIR ] || { echo "Directory $LB_MACHINESDIR doesnt exist"; exit 1; }
+[ -z "$(ls -A $LB_MACHINESDIR)" ] && { echo "Directory $LB_MACHINESDIR is empty"; exit 1; }
+
+export LB_SSHSCRIPTSDIR=$LB_DATADIR/_ssh_scripts
+
+mkdir -p "$LB_DATADIR"
+mkdir -p "$LB_SSHSCRIPTSDIR"
 mkdir -p "$(dirname "${LB_LOG}")"
+
+[ $LB_USE_SERVER ] && \
+    [ ! "$( lsof -Pi :$LB_SERVER_PORT -sTCP:LISTEN )" ] && \
+    (
+        echo run parser
+        cd server
+        ./parser3/parser3.cgi -p $LB_SERVER_PORT index.html $LB_SERVER_SHOW_ERRORS "$LB_DATADIR" "$LB_MACHINESDIR" "$LB_SSHSCRIPTSDIR" &
+    )
+
 exec > $LB_LOG; exec 2>&1
 
 echo logbuster start "'$@'"
