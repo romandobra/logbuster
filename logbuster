@@ -2,14 +2,20 @@
 
 set -e
 
+export LB_MACHINESDIR=$PWD/_machines
+[ -d $LB_MACHINESDIR ] || { echo "Directory $LB_MACHINESDIR doesnt exist"; exit 1; }
+[ -z "$(ls -A $LB_MACHINESDIR)" ] && { echo "Directory $LB_MACHINESDIR is empty"; exit 1; }
+
 export LB_FLOCK_WAIT=5
 export LB_LOGS_MAX=100000
+export LB_USE_SERVER=true
+export LB_SERVER_PORT=4500
 
 source .settings 2>/dev/null || true
 
-[ -z $LB_MACHINESDIR ] && { export LB_MACHINESDIR=$PWD/_machines; }
-[ -d $LB_MACHINESDIR ] || { echo "Directory $LB_MACHINESDIR doesnt exist"; exit 1; }
-[ -z "$(ls -A $LB_MACHINESDIR)" ] && { echo "Directory $LB_MACHINESDIR is empty"; exit 1; }
+[ $LB_USE_SERVER ] && \
+    [ ! $( lsof -Pi :$LB_SERVER_PORT -sTCP:LISTEN ) ] && \
+    ./server/parser3.cgi -p $LB_SERVER_PORT&
 
 export LB_DATADIR=$PWD/_data
 mkdir -p $LB_DATADIR
