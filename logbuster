@@ -17,7 +17,7 @@ source .settings 2>/dev/null || true
     [ ! $( lsof -Pi :$LB_SERVER_PORT -sTCP:LISTEN ) ] && \
     ( 
         cd server
-        ./parser3.cgi -f auto.p -p $LB_SERVER_PORT &
+        ./parser3/parser3.cgi -p $LB_SERVER_PORT &
     )
 
 export LB_DATADIR=$PWD/_data
