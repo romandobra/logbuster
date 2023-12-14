@@ -18,6 +18,6 @@ LB_SSH_KEY="/path/to/id_rsa"
 #LB_SSH_COMMAND="true"
 
 # set logs you want to get (read helpers/array_logs)
-# cat|truncate|rotate|delete FILE_NAME|ARRAY_LOGS_NAME PARAM
+# cat|truncate|rotate|delete FILE_PATH|ARRAY_LOGS_NAME PARAM
 
 LB_GET_LOGS="truncate auth"
