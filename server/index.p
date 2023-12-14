@@ -42,6 +42,6 @@ $result[
         $.size($line.piece) }
 
     ^if(^s.count[]>1){
-        $.log[^s.menu{^if(^s.line[]>1){$s.piece^#0a}}] }
+        $.log[^s.menu{^if(^s.line[]>1){^s.piece.trim[]}}[^#0a]] }
 ]
 
