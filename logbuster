@@ -35,7 +35,11 @@ mkdir -p "$(dirname "${LB_LOG}")"
     (
         echo run parser
         cd server
-        ./parser3/parser3.cgi -p $LB_SERVER_PORT index.html $LB_SERVER_SHOW_ERRORS "$LB_DATADIR" "$LB_MACHINESDIR" "$LB_SSHSCRIPTSDIR" &
+        ./parser3/parser3.cgi \
+        -p $LB_SERVER_PORT \
+        index.html \
+        $([ $LB_SERVER_SHOW_ERRORS ] && echo 1 || echo 0) \
+        "$LB_DATADIR" "$LB_MACHINESDIR" "$LB_SSHSCRIPTSDIR" &
     )
 
 exec > $LB_LOG; exec 2>&1

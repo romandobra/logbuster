@@ -1,5 +1,9 @@
 @auto[]
-$a[OK]
+$ROOT[^request:document-root.match[\w+][g][..]]
+
+$DATA_PATH[$ROOT/$request:argv.2]
+$MACHINES_PATH[$ROOT/$request:argv.3]
+$SCRIPTS_PATH[$ROOT/$request:argv.4]
 
 
 @is_developer[]
