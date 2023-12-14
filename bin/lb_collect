@@ -23,7 +23,7 @@ echo "logbuster collect $1 $LB_RUNDATE"
     [ -z "$LB_SSH_COMMAND" ] || {
         echo 'exec 2>&1'
         cat helpers/sh_collect
-        echo "echo -n 'logbuster ssh_user '"
+        echo "echo 'logbuster ssh_user'"
         echo whoami
 
         [ -z "$LB_GET_LOGS" ] || lb_get_logs
