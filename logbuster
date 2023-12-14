@@ -11,6 +11,7 @@ export LB_LOGS_MAX=100000
 export LB_USE_SERVER=true # pkill parser3
 export LB_SERVER_PORT=4500
 export LB_SERVER_SHOW_ERRORS=0
+export LB_SERVER_AUTH=hi
 
 export PATH=$PATH:$PWD/bin
 
@@ -39,7 +40,7 @@ mkdir -p "$(dirname "${LB_LOG}")"
         -p $LB_SERVER_PORT \
         index.html \
         $([ $LB_SERVER_SHOW_ERRORS ] && echo 1 || echo 0) \
-        "$LB_DATADIR" "$LB_MACHINESDIR" "$LB_SSHSCRIPTSDIR" &
+        "$LB_DATADIR" "$LB_MACHINESDIR" "$LB_SSHSCRIPTSDIR" "$LB_SERVER_AUTH" &
     )
 
 exec > $LB_LOG; exec 2>&1

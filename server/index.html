@@ -3,12 +3,11 @@
 
 #^soh[$request:argv]<hr>
 
-^if($form:auth ne "hi"){
+^if($form:auth ne $AUTH){
     <form><input name=auth autofocus></form>
 }{
-    ^so[^file:list[$DATA_PATH]]<hr>
-    ^so[^file:list[$MACHINES_PATH]]<hr>
-    ^so[^file:list[$SCRIPTS_PATH]]<hr>
+    ^use[index.p;$.replace(true)]
+    ^main[]
 }
 
 </body></html>
