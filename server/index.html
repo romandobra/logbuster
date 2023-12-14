@@ -1,5 +1,14 @@
+<!DOCTYPE html>
+<html><head><title>logbuster</title></head><body>
+
 #^soh[$request:argv]<hr>
 
-^so[^file:list[$DATA_PATH]]<hr>
-^so[^file:list[$MACHINES_PATH]]<hr>
-^so[^file:list[$SCRIPTS_PATH]]<hr>
+^if($form:auth ne "hi"){
+    <form><input name=auth autofocus></form>
+}{
+    ^so[^file:list[$DATA_PATH]]<hr>
+    ^so[^file:list[$MACHINES_PATH]]<hr>
+    ^so[^file:list[$SCRIPTS_PATH]]<hr>
+}
+
+</body></html>
