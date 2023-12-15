@@ -32,7 +32,7 @@ echo "logbuster collect $1 $LB_RUNDATE"
     [ -z "$LB_SSH_COMMAND" ] || {
         mkdir -p $LB_DATADIR/$1/ssh
         (   set +e
-            eval "$LB_SSH_COMMAND"
+#            eval "$LB_SSH_COMMAND"
         ) > $LB_DATADIR/$1/ssh/$LB_RUNDATE.log || true; }
 
 # build wget links

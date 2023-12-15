@@ -12,7 +12,7 @@ echo "$LB_GET_VALUES" | while read _VALUE_STRING; do
 
         [ -v "lb_values[$_VALUE_NAME]" ] && {
             echo "_value_result=\$(lb_test_result ${lb_values[$_VALUE_NAME]})"
-            echo "if [ \$_value_result == _lb_error ]; then"
+            echo "if [ \"\$_value_result\" == _lb_error ]; then"
             echo "echo ' error'; else"
             [ -z "$_VALUE_TEST" ] && {
                 echo "echo ' ok'"
