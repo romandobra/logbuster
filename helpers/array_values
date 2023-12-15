@@ -1,6 +1,7 @@
 #
 
-declare -A lb_compare=(
+declare -A lb_values=(
+    [ssh_user]='whoami'
     [uname]='uname -a'
     [hostname]='cat /etc/hostname'
     [inodes_use_max]='df -l --output=ipcent 2>/dev/null | grep -v I | cut -d"%" -f1 | sort -u | tail -1'

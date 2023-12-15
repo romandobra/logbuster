@@ -1,0 +1,20 @@
+#!/bin/env bash
+
+set -e
+source helpers/array_values
+
+echo "$LB_GET_VALUES" | while read _VALUE_STRING; do
+    [ -z "$_VALUE_STRING" ] && continue
+
+    echo ${_VALUE_STRING} | {
+        read _VALUE_NAME _VALUE_COMMAND
+
+        echo "echo '$LB_RUNDATE-logbuster values $_VALUE_NAME'"
+
+        [ -v "lb_values[$_VALUE_NAME]" ] && {
+            echo "${lb_values[$_VALUE_NAME]}"
+        } || {
+            echo "$_VALUE_COMMAND"
+        }
+    }
+done
