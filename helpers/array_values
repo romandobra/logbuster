@@ -2,11 +2,29 @@
 
 declare -A lb_values=(
     [ssh_user]='whoami'
+    [ssh_password]="cat /etc/ssh/sshd_config | grep -e '^PasswordAuthentication' | cut -d' ' -f2"
+    [ssh_key]="cat /etc/ssh/sshd_config | grep -e 'PubkeyAuthentication' | cut -d' ' -f2"
     [uname]='uname -a'
+
+    [root_crontab]="crontab -l 2>/dev/null | wc -l"
+
     [os]='cat /etc/os-release | grep -e "^ID=" | cut -d"=" -f2'
     [hostname]='cat /etc/hostname'
-    [inodes_use_max]='df -l --output=ipcent 2>/dev/null | grep -v I | cut -d"%" -f1 | sort -u | tail -1 | xargs'
+    [inodes_use]='df -l --output=ipcent 2>/dev/null | grep -v I | cut -d"%" -f1 | sort -u | tail -1 | xargs'
+    [disk_use]='df -k --output=pcent 2>/dev/null | grep -v U | cut -d"%" -f1 | sort -u | tail -1 | xargs'
     [mem_available]='cat /proc/meminfo | grep MemAvailable | cut -d":" -f2 | rev | cut -d" " -f2 | rev'
+
     [php_tz]="php -r \"echo date('P');\""
     [php_version]="php -v | head -1 | cut -d' ' -f2"
+
+    [sql_conf]="[ -e /root/.my.cnf ] && echo y || echo n"
+    [sql_port]="mysql -s -N -e \"set @@global.show_compatibility_56=1; \
+select variable_value from information_schema.global_variables where variable_name = 'port';\""
+    [sql_bind]="mysql -s -N -e \"set @@global.show_compatibility_56=1; \
+select variable_value from information_schema.global_variables where variable_name = 'BIND_ADDRESS';\""
+
+    [bx_group]="grep 'bitrix' /etc/group | wc -l"
+    [bx_members]="lid -g bitrix | cut -d'(' -f1"
+    [bx_crontab]="su bitrix crontab -l 2>/dev/null | wc -l"
+
 )
