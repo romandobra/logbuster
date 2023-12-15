@@ -18,7 +18,7 @@ echo "$LB_GET_LOGS" | while read _LOG; do
         echo "logbuster path_with_spaces '$_LOG_PATH_ACTUAL'" >&2; fi
 
         command -v lb_get_logs_$_LOG_ACTION >/dev/null 2>&1 && {
-            echo "echo -n 'logbuster $_LOG_ACTION $_LOG_PATH $_LOG_PARAM'"
+            echo "echo -n '$LB_RUNDATE-logbuster logs $_LOG_ACTION $_LOG_PATH $_LOG_PARAM'"
             echo "_lb_size=\$(lb_path_size $_LOG_PATH_ACTUAL)"
             echo "echo \$_lb_size"
             echo "if [ \"0\$_lb_size\" -gt 0 ] && [ \"0\$_lb_size\" -le $LB_LOGS_MAX ]; then"
