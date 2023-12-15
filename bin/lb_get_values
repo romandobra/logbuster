@@ -7,14 +7,22 @@ echo "$LB_GET_VALUES" | while read _VALUE_STRING; do
     [ -z "$_VALUE_STRING" ] && continue
 
     echo ${_VALUE_STRING} | {
-        read _VALUE_NAME _VALUE_COMMAND
+        read _VALUE_NAME _VALUE_PARAM
 
-        echo "echo '$LB_RUNDATE-logbuster values $_VALUE_NAME'"
+        
 
         [ -v "lb_values[$_VALUE_NAME]" ] && {
-            echo "${lb_values[$_VALUE_NAME]}"
+            [ -z "$_VALUE_PARAM" ] && {
+                echo "echo '$LB_RUNDATE-logbuster values $_VALUE_NAME'"
+                echo "${lb_values[$_VALUE_NAME]}"
+            } || {
+                echo "echo -n '$LB_RUNDATE-logbuster values $_VALUE_NAME'"
+                echo "_value_result=\$(${lb_values[$_VALUE_NAME]})"
+                echo "if [ \$_value_result $_VALUE_PARAM ]; then echo ' ok'; else echo ' warn'; fi"
+                echo "echo \$_value_result"
+            }
         } || {
-            echo "$_VALUE_COMMAND"
+            echo "$_VALUE_PARAM"
         }
     }
 done
