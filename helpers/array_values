@@ -14,6 +14,8 @@ declare -A lb_values=(
     [disk_use]='df -k --output=pcent 2>/dev/null | grep -v U | cut -d"%" -f1 | sort -u | tail -1 | xargs'
     [mem_available]='cat /proc/meminfo | grep MemAvailable | cut -d":" -f2 | rev | cut -d" " -f2 | rev'
 
+    [host_tz]="timedatectl status | grep 'Time zone' | cut -d':' -f2- | tr -d ' '"
+
     [php_tz]="php -r \"echo date('P');\""
     [php_version]="php -v | head -1 | cut -d' ' -f2"
 
