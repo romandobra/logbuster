@@ -2,7 +2,7 @@
 
 set -e
 
-echo -n "ssh "
+echo -n "cat '$LB_SSH_SCRIPT' | ssh "
 
 [ -z $LB_SSH_PORT ] || echo -n "-p $LB_SSH_PORT "
 [ -z $LB_SSH_KEY ] || echo -n "-o IdentityFile=$LB_SSH_KEY "
@@ -15,7 +15,9 @@ echo -n "$LB_SSH_USERHOST "
     [ -z $LB_SSH_SUDO_PASS ] || {
         echo -n "echo \"$LB_SSH_SUDO_PASS\" | "
     }
-    echo -n "sudo --prompt='' -S -- bash -s "
+    echo -n "sudo --prompt='' -S "
 }
+
+echo -n " bash -s -- "
 
 exit 0

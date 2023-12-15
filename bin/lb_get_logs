@@ -24,7 +24,7 @@ echo "$LB_GET_LOGS" | while read _LOG; do
 
             echo "if [ \"0\$_lb_size\" -gt 0 ] && [ \"0\$_lb_size\" -le $LB_LOGS_MAX ]; then echo \" ok \$_lb_size\""
             lb_get_logs_$_LOG_ACTION "$_LOG_PATH_ACTUAL" "$_LOG_PARAM" || true
-            echo "else echo \" error_log_size \$_lb_size\"; fi"
+            echo "else echo \" warn \$_lb_size\"; fi"
         } || {
             echo "logbuster wrong_action '$_LOG_ACTION'" >&2
         }
