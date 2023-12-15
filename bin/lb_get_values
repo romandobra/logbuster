@@ -23,7 +23,7 @@ echo "$LB_GET_VALUES" | while read _VALUE_STRING; do
         } || {
             echo "_value_result=\$(lb_test_result $_VALUE_TEST)"
             echo "if [ \"\$_value_result\" == _lb_error ]; then"
-            echo "echo ' custom_warn'; else echo ' ok'; echo \"\$_value_result\"; fi"
+            echo "echo ' warn_custom'; else echo ' ok'; echo \"\$_value_result\"; fi"
         }
     }
 done
