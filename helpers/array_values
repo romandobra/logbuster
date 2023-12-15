@@ -8,7 +8,7 @@ declare -A lb_values=(
 
     [root_crontab]="crontab -l 2>/dev/null | wc -l"
 
-    [os]='cat /etc/os-release | grep -e "^ID=" | cut -d"=" -f2'
+    [os]="cat /etc/os-release | grep -e '^ID=' | cut -d'=' -f2 | tr -d '\"'"
     [hostname]='cat /etc/hostname'
     [inodes_use]='df -l --output=ipcent 2>/dev/null | grep -v I | cut -d"%" -f1 | sort -u | tail -1 | xargs'
     [disk_use]='df -k --output=pcent 2>/dev/null | grep -v U | cut -d"%" -f1 | sort -u | tail -1 | xargs'
@@ -25,6 +25,6 @@ select variable_value from information_schema.global_variables where variable_na
 
     [bx_group]="grep 'bitrix' /etc/group | wc -l"
     [bx_members]="lid -g bitrix | cut -d'(' -f1"
-    [bx_crontab]="su bitrix crontab -l 2>/dev/null | wc -l"
+    [bx_crontab]="su bitrix -c 'crontab -l 2>/dev/null | wc -l'"
 
 )
