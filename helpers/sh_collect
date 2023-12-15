@@ -9,3 +9,7 @@ lb_path_size(){
         echo
     }
 }
+
+lb_test_result(){
+    "$@" 2>/dev/null || echo -n '_lb_error'
+}

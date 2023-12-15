@@ -7,22 +7,23 @@ echo "$LB_GET_VALUES" | while read _VALUE_STRING; do
     [ -z "$_VALUE_STRING" ] && continue
 
     echo ${_VALUE_STRING} | {
-        read _VALUE_NAME _VALUE_PARAM
-
-        
+        read _VALUE_NAME _VALUE_TEST
+        echo "echo -n '$LB_RUNDATE-logbuster values $_VALUE_NAME'"
 
         [ -v "lb_values[$_VALUE_NAME]" ] && {
-            [ -z "$_VALUE_PARAM" ] && {
-                echo "echo '$LB_RUNDATE-logbuster values $_VALUE_NAME'"
-                echo "${lb_values[$_VALUE_NAME]}"
+            echo "_value_result=\$(lb_test_result ${lb_values[$_VALUE_NAME]})"
+            echo "if [ \$_value_result == _lb_error ]; then"
+            echo "echo ' error'; else"
+            [ -z "$_VALUE_TEST" ] && {
+                echo "echo ' ok'"
             } || {
-                echo "echo -n '$LB_RUNDATE-logbuster values $_VALUE_NAME'"
-                echo "_value_result=\$(${lb_values[$_VALUE_NAME]})"
-                echo "if [ \$_value_result $_VALUE_PARAM ]; then echo ' ok'; else echo ' warn'; fi"
-                echo "echo \$_value_result"
+                echo "if [ \"\$_value_result\" $_VALUE_TEST ]; then echo ' ok'; else echo ' warn'; fi"
             }
+            echo "echo \"\$_value_result\"; fi"
         } || {
-            echo "$_VALUE_PARAM"
+            echo "_value_result=\$(lb_test_result $_VALUE_TEST)"
+            echo "if [ \"\$_value_result\" == _lb_error ]; then"
+            echo "echo ' custom_warn'; else echo ' ok'; echo \"\$_value_result\"; fi"
         }
     }
 done
