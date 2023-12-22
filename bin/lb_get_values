@@ -1,7 +1,6 @@
 #!/bin/env bash
 
 set -e
-source helpers/array_values
 
 echo "$LB_GET_VALUES" | while read _VALUE_STRING; do
     [ -z "$_VALUE_STRING" ] && continue
